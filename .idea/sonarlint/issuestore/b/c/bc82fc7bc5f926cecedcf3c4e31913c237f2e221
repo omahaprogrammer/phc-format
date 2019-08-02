@@ -1,0 +1,8 @@
+
+Hsquid:S1068"*Remove this unused "params" private field.(´ëú¤8Î”Ò÷Ä-
+Nsquid:S1172"+Remove this unused method parameter "hash".(¹“øûùÿÿÿÿ8çôÄ÷Ä-
+Ksquid:S1068"(Remove this unused "salt" private field.(ú¬¶ÿıÿÿÿÿ8ì‰ã÷Ä-
+Osquid:S1172",Remove this unused method parameter "clazz".(€”±Ïøÿÿÿÿ8èªÆøÄ-
+8squid:S2326"T is not used in the class.(ª™Ì>8•ºÃøÄ-
+Psquid:S1068"2Remove this unused "hashedPassword" private field.(ïÇ¶À8Øñõ÷Ä-
+Rsquid:S11723"/Remove this unused method parameter "password".(áÙÚ¨üÿÿÿÿ8úú£ùÄ-
