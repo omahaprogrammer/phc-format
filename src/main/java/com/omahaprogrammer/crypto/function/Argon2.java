@@ -3,34 +3,43 @@ package com.omahaprogrammer.crypto.function;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.params.Argon2Parameters;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
-    protected final Integer type;
-    public Argon2(String id, Integer type) {
+    static final Map<String, Param<?, ?>> params = new HashMap<>();
+
+    private final Integer type;
+    Argon2(String id, Integer type) {
         super(id);
         this.type = type;
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<T, ?>, ?> params, byte[] salt, char[] password) {
+    @SuppressWarnings("unchecked")
+    public Optional<Param<T, ?>> getParam(String string) {
+        return Optional.ofNullable((Param<T, ?>)params.get(string));
+    }
+
+    @Override
+    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password) {
         if (!params.keySet().containsAll(Set.of(
                 MemorySizeParam.getInstance(),
                 IterationsParam.getInstance(),
                 ParallelismParam.getInstance()))) {
             throw new IllegalArgumentException("Required parameters are missing");
         }
-        var len = Optional.ofNullable(HashLengthParam.getInstance().getFromMap(params)).orElse(32);
+        var len = Optional.ofNullable(HashLengthParam.getInstance().getValue(params)).orElse(32);
         byte[] hash = new byte[len];
 
         var gen = new Argon2BytesGenerator();
         gen.init(new Argon2Parameters.Builder(type)
-                .withMemoryAsKB(MemorySizeParam.getInstance().getFromMap(params))
-                .withIterations(IterationsParam.getInstance().getFromMap(params))
-                .withParallelism(ParallelismParam.getInstance().getFromMap(params))
-                .withAdditional(DataParam.getInstance().getFromMap(params))
+                .withMemoryAsKB(MemorySizeParam.getInstance().getValue(params))
+                .withIterations(IterationsParam.getInstance().getValue(params))
+                .withParallelism(ParallelismParam.getInstance().getValue(params))
+                .withAdditional(DataParam.getInstance().getValue(params))
                 .withSalt(salt)
                 .build());
         gen.generateBytes(password, hash);
@@ -42,7 +51,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private MemorySizeParam() {
-            super("m", 1, (Class<T>)Argon2.class, Integer.class);
+            super("m", 1, Integer.class);
+            params.put("m", this);
         }
 
         protected void validateImpl(Integer val) {
@@ -62,7 +72,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private IterationsParam() {
-            super("t", 2, (Class<T>)Argon2.class, Integer.class);
+            super("t", 2, Integer.class);
+            params.put("t", this);
         }
 
         protected void validateImpl(Integer val) {
@@ -82,7 +93,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private ParallelismParam() {
-            super("p", 3, (Class<T>)Argon2.class, Integer.class);
+            super("p", 3, Integer.class);
+            params.put("p", this);
         }
 
         protected void validateImpl(Integer val) {
@@ -102,7 +114,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private KeyIdParam() {
-            super("keyid", 4, (Class<T>)Argon2.class, byte[].class);
+            super("keyid", 4, byte[].class);
+            params.put("keyid", this);
         }
 
         protected void validateImpl(byte[] val) {
@@ -122,7 +135,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private DataParam() {
-            super("data",5, (Class<T>)Argon2.class, byte[].class);
+            super("data",5, byte[].class);
+            params.put("data", this);
         }
 
         protected void validateImpl(byte[] val) {
@@ -142,7 +156,7 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
         @SuppressWarnings("unchecked")
         private HashLengthParam() {
-            super (null, Integer.MAX_VALUE, (Class<T>) Argon2.class, Integer.class);
+            super (null, Integer.MAX_VALUE, Integer.class);
         }
 
         protected void validateImpl(Integer val) {

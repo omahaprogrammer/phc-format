@@ -3,8 +3,15 @@ package com.omahaprogrammer.crypto.function;
 import java.util.*;
 
 public abstract class PHCFunction<T extends PHCFunction<T>> {
+    public static final Argon2i ARGON2_I = new Argon2i();
+    public static final Argon2d ARGON2_D = new Argon2d();
+    public static final Argon2id ARGON2_ID = new Argon2id();
+
     private static final Map<String, PHCFunction<?>> functions = new HashMap<>();
-    final Map<String, Param<T,?>> params = new HashMap<>();
+
+    public static Optional<PHCFunction<?>> getFunction(String string) {
+        return Optional.ofNullable(functions.get(string));
+    }
 
     private final String id;
 
@@ -17,13 +24,7 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
         return id;
     }
 
-    public static Optional<PHCFunction<?>> getFunction(String string) {
-        return Optional.ofNullable(functions.get(string));
-    }
-
-    public Optional<Param<T,?>> getParam(String string) {
-        return Optional.ofNullable(params.get(string));
-    }
+    public abstract Optional<Param<T,?>> getParam(String string);
 
     public abstract byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password);
 
@@ -31,15 +32,12 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
 
         private final String name;
         private final int priority;
-        private final T function;
         private final Class<V> valueClass;
 
-        Param(String name, int priority, T function, Class<V> valueClass) {
+        Param(String name, int priority, Class<V> valueClass) {
             this.name = name;
             this.priority = priority;
-            this.function = Objects.requireNonNull(function);
             this.valueClass = Objects.requireNonNull(valueClass);
-            this.function.params.put(name, this);
         }
 
         public String getName() {
@@ -50,15 +48,11 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
             return priority;
         }
 
-        public T getFunction() {
-            return function;
-        }
-
         public Class<V> getValueClass() {
             return valueClass;
         }
 
-        public V getFromMap(Map<? extends Param<?, ?>, ?> map) {
+        public V getValue(Map<? extends Param<?, ?>, ?> map) {
             return validate(map.get(this));
         }
 
@@ -80,13 +74,12 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
             Param<?, ?> param = (Param<?, ?>) o;
             return Objects.equals(name, param.name) &&
                     priority == param.priority &&
-                    function.equals(param.function) &&
                     valueClass.equals(param.valueClass);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(name, priority, function, valueClass);
+            return Objects.hash(name, priority, valueClass);
         }
 
         @Override
@@ -98,7 +91,6 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
         public int compareTo(Param<T, V> o) {
             return Comparator.<Param<T, V>>comparingInt(Param::getPriority)
                     .thenComparing(Comparator.nullsFirst(Comparator.comparing(Param::getName)))
-                    .thenComparing(p -> p.getFunction().getId())
                     .thenComparing(p -> p.getValueClass().getName())
                     .compare(this, o);
         }

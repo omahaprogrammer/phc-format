@@ -54,6 +54,7 @@ public final class PHC {
         return new Builder<>(function);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends PHCFunction<T>> T getFunction() {
         return (T)function;
     }
@@ -68,6 +69,15 @@ public final class PHC {
 
     public byte[] getHashedPassword() {
         return Arrays.copyOf(hashedPassword, hashedPassword.length);
+    }
+
+    public boolean validate(char[] password) {
+        var testhash = function.hashPassword(params, salt, password);
+        var valid = testhash.length == hashedPassword.length;
+        for (int i = Integer.min(testhash.length, hashedPassword.length) - 1; i >= 0; --i) {
+            valid &= testhash[i] == hashedPassword[i];
+        }
+        return valid;
     }
 
     @Override
