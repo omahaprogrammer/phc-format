@@ -10,8 +10,6 @@ public class Argon2id extends Argon2<Argon2id> {
     public static final DataParam<Argon2id> DATA = DataParam.getInstance();
     public static final HashLengthParam<Argon2id> LENGTH = HashLengthParam.getInstance();
 
-    public static final Argon2id INSTANCE = new Argon2id();
-
     Argon2id() {
         super("argon2id", Argon2Parameters.ARGON2_id);
     }

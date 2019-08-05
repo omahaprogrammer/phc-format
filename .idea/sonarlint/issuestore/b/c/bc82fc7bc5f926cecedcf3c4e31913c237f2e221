@@ -1,8 +1,10 @@
 
-Hsquid:S1068"*Remove this unused "params" private field.(´ëú¤8Î”Ò÷Ä-
-Nsquid:S1172"+Remove this unused method parameter "hash".(¹“øûùÿÿÿÿ8çôÄ÷Ä-
-Ksquid:S1068"(Remove this unused "salt" private field.(ú¬¶ÿıÿÿÿÿ8ì‰ã÷Ä-
-Osquid:S1172",Remove this unused method parameter "clazz".(€”±Ïøÿÿÿÿ8èªÆøÄ-
-8squid:S2326"T is not used in the class.(ª™Ì>8•ºÃøÄ-
-Psquid:S1068"2Remove this unused "hashedPassword" private field.(ïÇ¶À8Øñõ÷Ä-
-Rsquid:S11723"/Remove this unused method parameter "password".(áÙÚ¨üÿÿÿÿ8úú£ùÄ-
+Vsquid:S1854!"8Remove this useless assignment to local variable "salt".(¥ËÓô8ı§¨¤Å-
+Jsquid:S1481*"-Remove this unused "function" local variable.(»„­48„½®¤Å-
+[squid:S1854""8Remove this useless assignment to local variable "hash".(–ª½–úÿÿÿÿ8üÂë¢Å-
+fsquid:S2583^"CChange this condition so that it does not always evaluate to "true"(»ĞÉúÿÿÿÿ8éğ£Å-
+Msquid:S00108+")Either remove or fill this block of code.(Á¦‰æÿÿÿÿÿ8™¿¤Å-
+Ysquid:S1854*"<Remove this useless assignment to local variable "function".(»„­48„½®¤Å-
+Msquid:S1481+"*Remove this unused "entry" local variable.(Á¦‰æÿÿÿÿÿ8™¿¤Å-
+Gsquid:S1481!")Remove this unused "salt" local variable.(¥ËÓô8ı§¨¤Å-
+Lsquid:S1481"")Remove this unused "hash" local variable.(–ª½–úÿÿÿÿ8üÂë¢Å-

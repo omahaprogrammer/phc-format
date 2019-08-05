@@ -10,8 +10,6 @@ public class Argon2d extends Argon2<Argon2d> {
     public static final DataParam<Argon2d> DATA = DataParam.getInstance();
     public static final HashLengthParam<Argon2d> LENGTH = HashLengthParam.getInstance();
 
-    public final Argon2d INSTANCE = new Argon2d();
-
     Argon2d() {
         super("argon2d", Argon2Parameters.ARGON2_d);
     }

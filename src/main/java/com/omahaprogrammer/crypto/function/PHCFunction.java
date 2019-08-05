@@ -3,17 +3,25 @@ package com.omahaprogrammer.crypto.function;
 import java.util.*;
 
 public abstract class PHCFunction<T extends PHCFunction<T>> {
-    public static final Argon2i ARGON2_I = new Argon2i();
-    public static final Argon2d ARGON2_D = new Argon2d();
-    public static final Argon2id ARGON2_ID = new Argon2id();
-
     private static final Map<String, PHCFunction<?>> functions = new HashMap<>();
+
+    public static final Argon2i ARGON2_I;
+    public static final Argon2d ARGON2_D;
+    public static final Argon2id ARGON2_ID;
+    public static final PBKDF2 PBKDF2;
 
     public static Optional<PHCFunction<?>> getFunction(String string) {
         return Optional.ofNullable(functions.get(string));
     }
 
     private final String id;
+
+    static {
+        ARGON2_I = new Argon2i();
+        ARGON2_D = new Argon2d();
+        ARGON2_ID = new Argon2id();
+        PBKDF2 = new PBKDF2();
+    }
 
     PHCFunction(String id) {
         this.id = id;
@@ -24,7 +32,7 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
         return id;
     }
 
-    public abstract Optional<Param<T,?>> getParam(String string);
+    public abstract Optional<Param<?,?>> getParam(String string);
 
     public abstract byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password);
 
@@ -57,6 +65,13 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
         }
 
         public V validate(Object obj) {
+            if (obj == null) {
+                return null;
+            }
+            if (obj instanceof String) {
+                obj = convertString(obj.toString(), valueClass);
+            }
+
             if (!valueClass.isInstance(obj)) {
                 throw new IllegalArgumentException();
             }
@@ -90,9 +105,22 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
         @Override
         public int compareTo(Param<T, V> o) {
             return Comparator.<Param<T, V>>comparingInt(Param::getPriority)
-                    .thenComparing(Comparator.nullsFirst(Comparator.comparing(Param::getName)))
+                    .thenComparing(Param::getName, Comparator.nullsFirst(Comparator.naturalOrder()))
                     .thenComparing(p -> p.getValueClass().getName())
                     .compare(this, o);
+        }
+
+        private static <V> V convertString(String val, Class<V> clazz) {
+            if (clazz.equals(String.class)) {
+                return clazz.cast(val);
+            }
+            if (clazz.equals(Integer.class)) {
+                return clazz.cast(Integer.valueOf(val));
+            }
+            if (clazz.equals(byte[].class)) {
+                return clazz.cast(Base64.getDecoder().decode(val));
+            }
+            throw new IllegalArgumentException("Unknown conversion");
         }
     }
 }
