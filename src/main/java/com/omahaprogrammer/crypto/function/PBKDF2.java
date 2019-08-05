@@ -1,12 +1,22 @@
 package com.omahaprogrammer.crypto.function;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.math.ec.custom.sec.SecT113Field;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class PBKDF2 extends PHCFunction<PBKDF2> {
     public static final AlgorithmParam ALGORITHM = new AlgorithmParam();
     public static final IterationsParam ITERATIONS = new IterationsParam();
+    public static final HashLengthParam HASH_LENGTH = new HashLengthParam();
 
     static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
 
@@ -21,7 +31,21 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
 
     @Override
     public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password) {
-        return new byte[0];
+        if (!params.keySet().containsAll(Set.of(ALGORITHM, ITERATIONS))) {
+            throw new IllegalArgumentException("Required parameters missing");
+        }
+        var alg = ALGORITHM.getValue(params);
+        var iterations = ITERATIONS.getValue(params);
+        var len = Optional.ofNullable(HASH_LENGTH.getValue(params)).orElse(32);
+        var spec = new PBEKeySpec(password, salt, iterations, len);
+        try {
+            var fac = SecretKeyFactory.getInstance(String.format("PBKDF2With%s", alg.getLabel()), BouncyCastleProvider.PROVIDER_NAME);
+            var hash = fac.generateSecret(spec);
+            spec.clearPassword();
+            return hash.getEncoded();
+        } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public enum Algorithm {
