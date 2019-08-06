@@ -1,3 +1,8 @@
 
-Dsquid:S1452"&Remove usage of generic wildcard type.( Ë±‹8÷™Ğ’Æ-
-Isquid:S1452"&Remove usage of generic wildcard type.(§€Òøüÿÿÿÿ8÷™Ğ’Æ-
+Dsquid:S1452#"&Remove usage of generic wildcard type.(ï•·±8ò¸‘›Æ-
+Dsquid:S1452#"&Remove usage of generic wildcard type.(ï•·±8Ö¿ Æ-
+Asquid:S2390"#Remove this reference to "Argon2i".(ü±¿8±ûµ¡Æ-
+Dsquid:S1452"&Remove usage of generic wildcard type.( Ë±‹8ò¸‘›Æ-
+Gsquid:S2390"$Remove this reference to "Argon2id".(šÇº‡üÿÿÿÿ8±ûµ¡Æ-
+Fsquid:S2390"#Remove this reference to "Argon2d".(™ºü½üÿÿÿÿ8±ûµ¡Æ-
+Esquid:S2390""Remove this reference to "PBKDF2".(¤’§™ùÿÿÿÿ8±ûµ¡Æ-

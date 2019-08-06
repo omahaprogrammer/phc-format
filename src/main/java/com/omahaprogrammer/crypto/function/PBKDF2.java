@@ -14,28 +14,46 @@ import java.util.Set;
 public class PBKDF2 extends PHCFunction<PBKDF2> {
     private static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
 
+    private static final int DEFAULT_SALT_LENGTH = 16;
+    private static final int DEFAULT_HASH_LENGTH = 32;
+
     public static final AlgorithmParam ALG = new AlgorithmParam();
     public static final IterationsParam C = new IterationsParam();
-    public static final HashLengthParam LENGTH = new HashLengthParam();
 
-    PBKDF2() {
+    private static final PBKDF2 INSTANCE = new PBKDF2();
+
+    private PBKDF2() {
         super("pbkdf2");
     }
 
-    @Override
-    public Optional<Param<?, ?>> getParam(String string) {
-        return Optional.ofNullable(params.get(string));
+    public static PBKDF2 getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password) {
+    @SuppressWarnings("unchecked")
+    public <V> Optional<Param<PBKDF2, V>> getParam(String string) {
+        return Optional.ofNullable((Param<PBKDF2, V>)params.get(string));
+    }
+
+    @Override
+    public int getDefaultSaltLength() {
+        return DEFAULT_SALT_LENGTH;
+    }
+
+    @Override
+    public int getDefaultHashLength() {
+        return DEFAULT_HASH_LENGTH;
+    }
+
+    @Override
+    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(ALG, C))) {
             throw new IllegalArgumentException("Required parameters missing");
         }
         var alg = ALG.getValue(params);
         var iterations = C.getValue(params);
-        var len = Optional.ofNullable(LENGTH.getValue(params)).orElse(32);
-        var spec = new PBEKeySpec(password, salt, iterations, len * 8);
+        var spec = new PBEKeySpec(password, salt, iterations, length * 8);
         try {
             var fac = SecretKeyFactory.getInstance(String.format("PBKDF2With%s", alg.getLabel()), new BouncyCastleProvider());
             var hash = fac.generateSecret(spec);
@@ -107,18 +125,6 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
 
         protected void validateImpl(Integer val) {
             if (val < 1) {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    public static final class HashLengthParam extends Param<PBKDF2, Integer> {
-        private HashLengthParam() {
-            super (null, Integer.MAX_VALUE, Integer.class);
-        }
-
-        protected void validateImpl(Integer val) {
-            if (val < 12 || val > 64) {
                 throw new IllegalArgumentException();
             }
         }

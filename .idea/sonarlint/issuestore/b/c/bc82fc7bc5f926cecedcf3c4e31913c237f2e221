@@ -1,10 +1,2 @@
 
-Vsquid:S1854!"8Remove this useless assignment to local variable "salt".(¥ËÓô8ı§¨¤Å-
-Jsquid:S1481*"-Remove this unused "function" local variable.(»„­48„½®¤Å-
-[squid:S1854""8Remove this useless assignment to local variable "hash".(–ª½–úÿÿÿÿ8üÂë¢Å-
-fsquid:S2583^"CChange this condition so that it does not always evaluate to "true"(»ĞÉúÿÿÿÿ8éğ£Å-
-Msquid:S00108+")Either remove or fill this block of code.(Á¦‰æÿÿÿÿÿ8™¿¤Å-
-Ysquid:S1854*"<Remove this useless assignment to local variable "function".(»„­48„½®¤Å-
-Msquid:S1481+"*Remove this unused "entry" local variable.(Á¦‰æÿÿÿÿÿ8™¿¤Å-
-Gsquid:S1481!")Remove this unused "salt" local variable.(¥ËÓô8ı§¨¤Å-
-Lsquid:S1481"")Remove this unused "hash" local variable.(–ª½–úÿÿÿÿ8üÂë¢Å-
+psquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(§ñî 8ĞâØ Æ-

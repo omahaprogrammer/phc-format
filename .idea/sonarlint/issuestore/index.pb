@@ -27,3 +27,7 @@ o
 ?src/main/java/com/omahaprogrammer/crypto/function/Argon2id.java,8\e\8e5effda182f166822aba041a331cc3d0fa6a361
 m
 =src/main/java/com/omahaprogrammer/crypto/function/Argon2.java,8\a\8ab4edbb582dd5694060f05eabf728257566efe7
+m
+=src/main/java/com/omahaprogrammer/crypto/function/PBKDF2.java,9\d\9d38e6bdca82363892827d75ec42e2688efcf03c
+e
+5src/test/java/com/omahaprogrammer/crypto/PHCTest.java,1\6\1668981839e79b90709fd2e66777f065c3d6c409

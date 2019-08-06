@@ -3,38 +3,23 @@ package com.omahaprogrammer.crypto.function;
 import java.util.*;
 
 public abstract class PHCFunction<T extends PHCFunction<T>> {
-    private static final Map<String, PHCFunction<?>> functions = new HashMap<>();
-
-    public static final Argon2i ARGON2_I;
-    public static final Argon2d ARGON2_D;
-    public static final Argon2id ARGON2_ID;
-    public static final PBKDF2 PBKDF2;
-
-    public static Optional<PHCFunction<?>> getFunction(String string) {
-        return Optional.ofNullable(functions.get(string));
-    }
-
     private final String id;
-
-    static {
-        ARGON2_I = new Argon2i();
-        ARGON2_D = new Argon2d();
-        ARGON2_ID = new Argon2id();
-        PBKDF2 = new PBKDF2();
-    }
 
     PHCFunction(String id) {
         this.id = id;
-        functions.put(id, this);
     }
 
     public String getId() {
         return id;
     }
 
-    public abstract Optional<Param<?,?>> getParam(String string);
+    public abstract <V> Optional<Param<T,V>> getParam(String string);
 
-    public abstract byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password);
+    public abstract byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length);
+
+    public abstract int getDefaultSaltLength();
+
+    public abstract int getDefaultHashLength();
 
     public abstract static class Param<T extends PHCFunction<T>, V> implements Comparable<Param<T, V>> {
 
@@ -52,7 +37,7 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
             return name;
         }
 
-        public int getPriority() {
+        int getPriority() {
             return priority;
         }
 
@@ -60,7 +45,7 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
             return valueClass;
         }
 
-        public V getValue(Map<? extends Param<?, ?>, ?> map) {
+        V getValue(Map<? extends Param<?, ?>, ?> map) {
             return validate(map.get(this));
         }
 

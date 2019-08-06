@@ -10,6 +10,8 @@ import java.util.Set;
 
 abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
     private static final Map<String, Param<?, ?>> params = new HashMap<>();
+    private static final int DEFAULT_SALT_LENGTH = 16;
+    private static final int DEFAULT_HASH_LENGTH = 32;
 
     private final Integer type;
     Argon2(String id, Integer type) {
@@ -18,20 +20,30 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
     }
 
     @Override
-    public Optional<Param<?, ?>> getParam(String string) {
-        return Optional.ofNullable(params.get(string));
+    @SuppressWarnings("unchecked")
+    public Optional<Param<T, ?>> getParam(String string) {
+        return Optional.ofNullable((Param<T, ?>)params.get(string));
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password) {
+    public int getDefaultSaltLength() {
+        return DEFAULT_SALT_LENGTH;
+    }
+
+    @Override
+    public int getDefaultHashLength() {
+        return DEFAULT_HASH_LENGTH;
+    }
+
+    @Override
+    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(
                 MemorySizeParam.getInstance(),
                 IterationsParam.getInstance(),
                 ParallelismParam.getInstance()))) {
             throw new IllegalArgumentException("Required parameters are missing");
         }
-        var len = Optional.ofNullable(HashLengthParam.getInstance().getValue(params)).orElse(32);
-        byte[] hash = new byte[len];
+        byte[] hash = new byte[length];
 
         var gen = new Argon2BytesGenerator();
         gen.init(new Argon2Parameters.Builder(type)
@@ -143,25 +155,6 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> DataParam<T> getInstance() {
             return (DataParam<T>) INSTANCE;
-        }
-    }
-
-    public static final class HashLengthParam<T extends Argon2<T>> extends Param<T, Integer> {
-        private static final HashLengthParam<?> INSTANCE = new HashLengthParam();
-
-        private HashLengthParam() {
-            super (null, Integer.MAX_VALUE, Integer.class);
-        }
-
-        protected void validateImpl(Integer val) {
-            if (val < 12 || val > 64) {
-                throw new IllegalArgumentException();
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        static <T extends Argon2<T>> HashLengthParam<T> getInstance() {
-            return (HashLengthParam<T>) INSTANCE;
         }
     }
 }
