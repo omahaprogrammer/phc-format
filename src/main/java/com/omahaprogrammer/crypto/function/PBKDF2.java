@@ -29,8 +29,8 @@ import java.util.Set;
 public class PBKDF2 extends PHCFunction<PBKDF2> {
     private static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
 
-    private static final int DEFAULT_SALT_LENGTH = 16;
-    private static final int DEFAULT_HASH_LENGTH = 32;
+    private static final int DEFAULT_SALT_LENGTH = 128;
+    private static final int DEFAULT_HASH_LENGTH = 64;
 
     public static final AlgorithmParam ALG = new AlgorithmParam();
     public static final IterationsParam C = new IterationsParam();
@@ -62,7 +62,7 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
+    public byte[] hashPassword(Map<Param<PBKDF2, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(ALG, C))) {
             throw new IllegalArgumentException("Required parameters missing");
         }

@@ -51,7 +51,7 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
+    public byte[] hashPassword(Map<Param<T, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(
                 MemorySizeParam.getInstance(),
                 IterationsParam.getInstance(),

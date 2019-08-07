@@ -30,7 +30,7 @@ public abstract class PHCFunction<T extends PHCFunction<T>> {
 
     public abstract <V> Optional<Param<T,V>> getParam(String string);
 
-    public abstract byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length);
+    public abstract byte[] hashPassword(Map<Param<T, ?>, ?> params, byte[] salt, char[] password, int length);
 
     public abstract int getDefaultSaltLength();
 
