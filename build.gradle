@@ -57,6 +57,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
             pom {
                 name = 'PHC format library'
                 description = 'A library designed to produce and read PHC-formatted strings and verify passwords against them'
