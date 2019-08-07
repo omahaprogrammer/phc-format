@@ -97,6 +97,7 @@ publishing {
     }
 }
 
+
 signing {
 	useGpgCmd()
 	sign configurations.archives
