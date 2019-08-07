@@ -42,6 +42,7 @@ test {
 signing {
 	useGpgCmd()
 	sign configurations.archives
+    //sign publishing.publications.mavenJava
 }
 
 publishing {
