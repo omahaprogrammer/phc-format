@@ -14,63 +14,91 @@
  */
 
 plugins {
-	id 'java'
-	id 'maven-publish'
-	id 'signing'
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.omahaprogrammer.crypto'
-version '1.0-SNAPSHOT'
+version '1.1-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_12
 targetCompatibility = JavaVersion.VERSION_12
 
+task sourcesJar(type: Jar) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.62'
-	testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.62'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 test {
-	minHeapSize = "1024m"
-	maxHeapSize = "2048m"
+    minHeapSize = "1024m"
+    maxHeapSize = "2048m"
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'PHC format library'
+                description = 'A library designed to produce and read PHC-formatted strings and verify passwords against them'
+                url = 'https://github.com/omahaprogrammer/phc-format'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'omahaprogrammer'
+                        name = 'Jonathan Paz'
+                        email = 'omahaprogrammer@gmail.com'
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/omahaprogrammer/phc-format.git"
+                    developerConnection = "scm:git:ssh://github.com:omahaprogrammer/phc-format.git"
+                    url = 'https://github.com/omahaprogrammer/phc-format/tree/master'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releaseUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            def snapshotUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('-SNAPSHOT') ? snapshotUrl : releaseUrl
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
+            }
+        }
+    }
 }
 
 signing {
 	useGpgCmd()
 	sign configurations.archives
-    //sign publishing.publications.mavenJava
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = 'PHC format library'
-				description = 'A library designed to produce and read PHC-formatted strings and verify passwords against them'
-				url = 'https://github.com/omahaprogrammer/phc-format'
-				licenses {
-					license {
-						name = 'The Apache License, Version 2.0'
-						url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-					}
-				}
-				developers {
-					developer {
-						id = 'omahaprogrammer'
-						name = 'Jonathan Paz'
-						email = 'omahaprogrammer@gmail.com'
-					}
-				}
-				scm {
-					connection = "https://github.com/omahaprogrammer/phc-format.git"
-					developerConnection = "git@github.com:omahaprogrammer/phc-format.git"
-					url = 'https://github.com/omahaprogrammer/phc-format'
-				}
-			}
-		}
-	}
+	sign publishing.publications.mavenJava
 }
