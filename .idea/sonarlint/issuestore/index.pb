@@ -31,3 +31,5 @@ m
 =src/main/java/com/omahaprogrammer/crypto/function/PBKDF2.java,9\d\9d38e6bdca82363892827d75ec42e2688efcf03c
 e
 5src/test/java/com/omahaprogrammer/crypto/PHCTest.java,1\6\1668981839e79b90709fd2e66777f065c3d6c409
+7
+LICENSE,0\3\0398ccd0f49298b10a3d76a47800d2ebecd49859
