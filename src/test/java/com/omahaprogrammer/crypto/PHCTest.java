@@ -38,7 +38,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 1)
-                .hash(pstring, 20);
+                .protect(pstring, 20);
         var hash = encoder.encodeToString(new byte[]{0x0c, 0x60, (byte)0xc8, 0x0f, (byte)0x96, 0x1f, 0x0e, 0x71,
                 (byte)0xf3, (byte)0xa9, (byte)0xb5, 0x24, (byte)0xaf, 0x60, 0x12, 0x06,
                 0x2f, (byte)0xe0, 0x37, (byte)0xa6});
@@ -54,7 +54,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 2)
-                .hash(pstring, 20);
+                .protect(pstring, 20);
         var hash = encoder.encodeToString(new byte[]{(byte)0xea, 0x6c, 0x01, 0x4d, (byte)0xc7, 0x2d, 0x6f, (byte)0x8c,
                 (byte)0xcd, 0x1e, (byte)0xd9, 0x2a, (byte)0xce, 0x1d, 0x41, (byte)0xf0,
                 (byte)0xd8, (byte)0xde, (byte)0x89, 0x57});
@@ -70,7 +70,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring, 20);
+                .protect(pstring, 20);
         var hash = encoder.encodeToString(new byte[]{0x4b, 0x00, 0x79, 0x01, (byte)0xb7, 0x65, 0x48, (byte)0x9a,
                 (byte)0xbe, (byte)0xad, 0x49, (byte)0xd9, 0x26, (byte)0xf7, 0x21, (byte)0xd0,
                 0x65, (byte)0xa4, 0x29, (byte)0xc1});
@@ -86,7 +86,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 16777216)
-                .hash(pstring, 20);
+                .protect(pstring, 20);
         var hash = encoder.encodeToString(new byte[]{(byte)0xee, (byte)0xfe, 0x3d, 0x61, (byte)0xcd, 0x4d, (byte)0xa4, (byte)0xe4,
                 (byte)0xe9, (byte)0x94, 0x5b, 0x3d, 0x6b, (byte)0xa2, 0x15, (byte)0x8c,
                 0x26, 0x34, (byte)0xe9, (byte)0x84});
@@ -102,7 +102,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring, 25);
+                .protect(pstring, 25);
         var hash = encoder.encodeToString(new byte[]{0x3d, 0x2e, (byte)0xec, 0x4f, (byte)0xe4, 0x1c, (byte)0x84, (byte)0x9b,
                 (byte)0x80, (byte)0xc8, (byte)0xd8, 0x36, 0x62, (byte)0xc0, (byte)0xe4, 0x4a,
                 (byte)0x8b, 0x29, 0x1a, (byte)0x96, 0x4c, (byte)0xf2, (byte)0xf0, 0x70,
@@ -119,7 +119,7 @@ public class PHCTest {
                 .withSalt(salt)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA1)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring, 16);
+                .protect(pstring, 16);
         var hash = encoder.encodeToString(new byte[]{0x56, (byte)0xfa, 0x6a, (byte)0xa7, 0x55, 0x48, 0x09, (byte)0x9d,
                 (byte)0xcc, 0x37, (byte)0xd7, (byte)0xf0, 0x34, 0x25, (byte)0xe0, (byte)0xc3});
 
@@ -133,9 +133,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA224)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA224,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA224,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -145,9 +145,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA256)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA256,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA256,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -157,9 +157,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA384)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA384,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA384,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -169,9 +169,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA512)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA512,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA512,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -181,9 +181,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA3_224)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-224,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-224,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -193,9 +193,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA3_256)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-256,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-256,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -205,9 +205,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA3_384)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-384,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-384,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -217,9 +217,9 @@ public class PHCTest {
                 .withRandomSalt(16)
                 .withParam(PBKDF2.ALG, PBKDF2.Algorithm.HMAC_SHA3_512)
                 .withParam(PBKDF2.C, 4096)
-                .hash(pstring);
+                .protect(pstring);
 
-        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-512,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getHashedPassword())), phc.toString());
+        assertEquals(String.format("$pbkdf2$alg=HmacSHA3-512,c=4096$%s$%s", encoder.encodeToString(phc.getSalt()), encoder.encodeToString(phc.getProtectedPassword())), phc.toString());
     }
 
     @Test
@@ -231,7 +231,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 65536)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("c1628832147d9720c5bd1cfd61367078729f6dfb6f8fea9ff98158e0d7816ed0"));
 
         assertEquals(String.format("$argon2i$m=65536,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString()); // NOSONAR
@@ -246,7 +246,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 1048576)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("d1587aca0922c3b5d6a83edab31bee3c4ebaef342ed6127a55d19b2351ad1f41"));
 
         assertEquals(String.format("$argon2i$m=1048576,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -261,7 +261,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 262144)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("296dbae80b807cdceaad44ae741b506f14db0959267b183b118f9b24229bc7cb"));
 
         assertEquals(String.format("$argon2i$m=262144,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -276,7 +276,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 256)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("89e9029f4637b295beb027056a7336c414fadd43f6b208645281cb214a56452f"));
 
         assertEquals(String.format("$argon2i$m=256,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -291,7 +291,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 256)
                 .withParam(Argon2i.P, 2)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("4ff5ce2769a1d7f4c8a491df09d41a9fbe90e5eb02155a13e4c01e20cd4eab61"));
 
         assertEquals(String.format("$argon2i$m=256,t=2,p=2$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -306,7 +306,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 1)
                 .withParam(Argon2i.M, 65536)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("d168075c4d985e13ebeae560cf8b94c3b5d8a16c51916b6f4ac2da3ac11bbecf"));
 
         assertEquals(String.format("$argon2i$m=65536,t=1,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -321,7 +321,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 4)
                 .withParam(Argon2i.M, 65536)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("aaa953d58af3706ce3df1aefd4a64a84e31d7f54175231f1285259f88174ce5b"));
 
         assertEquals(String.format("$argon2i$m=65536,t=4,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -336,7 +336,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 65536)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("14ae8da01afea8700c2358dcef7c5358d9021282bd88663a4562f59fb74d22ee"));
 
         assertEquals(String.format("$argon2i$m=65536,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -351,7 +351,7 @@ public class PHCTest {
                 .withParam(Argon2i.T, 2)
                 .withParam(Argon2i.M, 65536)
                 .withParam(Argon2i.P, 1)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("b0357cccfbef91f3860b0dba447b2348cbefecadaf990abfe9cc40726c521271"));
 
         assertEquals(String.format("$argon2i$m=65536,t=2,p=1$%s$%s", encoder.encodeToString(salt), hash), phc.toString());
@@ -374,7 +374,7 @@ public class PHCTest {
                 .withParam(Argon2d.P, 4)
                 .withParam(Argon2d.KEY_ID, secret)
                 .withParam(Argon2d.DATA, data)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("512b391b6f1162975371d30919734294f868e3be3984f3c1a13a4db9fabe4acb"));
 
         assertEquals(String.format("$argon2d$m=32,t=3,p=4,keyid=%s,data=%s$%s$%s", encoder.encodeToString(secret), encoder.encodeToString(data), encoder.encodeToString(salt), hash), phc.toString());
@@ -397,7 +397,7 @@ public class PHCTest {
                 .withParam(Argon2id.P, 4)
                 .withParam(Argon2id.KEY_ID, secret)
                 .withParam(Argon2id.DATA, data)
-                .hash(pstring);
+                .protect(pstring);
         var hash = encoder.encodeToString(Hex.decode("0d640df58d78766c08c037a34a8b53c9d01ef0452d75b65eb52520e96b01e659"));
 
         assertEquals(String.format("$argon2id$m=32,t=3,p=4,keyid=%s,data=%s$%s$%s", encoder.encodeToString(secret), encoder.encodeToString(data), encoder.encodeToString(salt), hash), phc.toString());
@@ -432,19 +432,19 @@ public class PHCTest {
             PHC<Argon2i> phc = PHC.parse(vectors[i]);
             assertEquals(Argon2i.getInstance(), phc.getFunction());
             if (i == 2) {
-                assertEquals(Integer.valueOf(2040), phc.getParam(Argon2i.M));
+                assertEquals(Integer.valueOf(2040), phc.getParam(Argon2i.M).orElse(null));
             } else {
-                assertEquals(Integer.valueOf(120), phc.getParam(Argon2i.M));
+                assertEquals(Integer.valueOf(120), phc.getParam(Argon2i.M).orElse(null));
             }
             if (i == 1) {
-                assertEquals(Integer.valueOf(1294967295), phc.getParam(Argon2i.T));
+                assertEquals(Integer.valueOf(1294967295), phc.getParam(Argon2i.T).orElse(null));
             } else {
-                assertEquals(Integer.valueOf(5000), phc.getParam(Argon2i.T));
+                assertEquals(Integer.valueOf(5000), phc.getParam(Argon2i.T).orElse(null));
             }
             if (i == 2) {
-                assertEquals(Integer.valueOf(255), phc.getParam(Argon2i.P));
+                assertEquals(Integer.valueOf(255), phc.getParam(Argon2i.P).orElse(null));
             } else {
-                assertEquals(Integer.valueOf(2), phc.getParam(Argon2i.P));
+                assertEquals(Integer.valueOf(2), phc.getParam(Argon2i.P).orElse(null));
             }
             assertEquals(vectors[i], phc.toString());
         }
@@ -470,7 +470,7 @@ public class PHCTest {
                             .withParam(PBKDF2.ALG, a)
                             .withParam(PBKDF2.C, 1024)
                             .withRandomSalt()
-                            .hash(PASSWORD.toCharArray())
+                            .protect(PASSWORD.toCharArray())
             );
         } catch (Exception e) {
             fail();

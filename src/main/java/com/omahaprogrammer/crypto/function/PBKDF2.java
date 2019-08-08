@@ -27,13 +27,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public class PBKDF2 extends PHCFunction<PBKDF2> {
-    private static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
-
-    private static final int DEFAULT_SALT_LENGTH = 16;
-    private static final int DEFAULT_HASH_LENGTH = 32;
-
     public static final AlgorithmParam ALG = new AlgorithmParam();
     public static final IterationsParam C = new IterationsParam();
+
+    private static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
+
+    private static final int DEFAULT_SALT_LENGTH = 128;
+    private static final int DEFAULT_HASH_LENGTH = 64;
 
     private static final PBKDF2 INSTANCE = new PBKDF2();
 
@@ -41,6 +41,10 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
         super("pbkdf2");
     }
 
+    /**
+     * Provides the singleton instance of this function
+     * @return the singleton instance
+     */
     public static PBKDF2 getInstance() {
         return INSTANCE;
     }
@@ -62,7 +66,7 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
+    public byte[] protectPassword(Map<Param<PBKDF2, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(ALG, C))) {
             throw new IllegalArgumentException("Required parameters missing");
         }
@@ -79,6 +83,9 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
         }
     }
 
+    /**
+     * This enum describes the supported algorithms used by the PBKDF2 function
+     */
     public enum Algorithm {
         HMAC_SHA1("HmacSHA1"),
         HMAC_SHA224("HmacSHA224"),
@@ -106,6 +113,9 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
         }
     }
 
+    /**
+     * This parameter defines the algorithm to be used by the PBKDF2 function
+     */
     public static final class AlgorithmParam extends Param<PBKDF2, Algorithm> {
         private AlgorithmParam() {
             super("alg", 1, Algorithm.class);
@@ -132,6 +142,9 @@ public class PBKDF2 extends PHCFunction<PBKDF2> {
         }
     }
 
+    /**
+     * This parameter defines the number of iterations to be used by the PBKDF2 function
+     */
     public static final class IterationsParam extends Param<PBKDF2, Integer> {
         private IterationsParam() {
             super("c", 2, Integer.class);

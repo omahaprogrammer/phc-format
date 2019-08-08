@@ -51,7 +51,7 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
     }
 
     @Override
-    public byte[] hashPassword(Map<Param<?, ?>, ?> params, byte[] salt, char[] password, int length) {
+    public byte[] protectPassword(Map<Param<T, ?>, ?> params, byte[] salt, char[] password, int length) {
         if (!params.keySet().containsAll(Set.of(
                 MemorySizeParam.getInstance(),
                 IterationsParam.getInstance(),
@@ -73,6 +73,10 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
         return hash;
     }
 
+    /**
+     * This parameter defines the memory size to be taken by the Argon2 function
+     * @param <T> The final type of the function
+     */
     public static final class MemorySizeParam<T extends Argon2<T>> extends Param<T, Integer> {
         private static final MemorySizeParam<?> INSTANCE = new MemorySizeParam<>();
 
@@ -87,12 +91,21 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
             }
         }
 
+        /**
+         * Provides typed access to the singleton instance
+         * @param <T> the final type of the function
+         * @return the singleton instance
+         */
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> MemorySizeParam<T> getInstance() {
             return (MemorySizeParam<T>) INSTANCE;
         }
     }
 
+    /**
+     * This parameter defines the number of iterations to be taken by the Argon2 function
+     * @param <T> The final type of the function
+     */
     public static final class IterationsParam<T extends Argon2<T>> extends Param<T, Integer> {
         private static final IterationsParam<?> INSTANCE = new IterationsParam<>();
 
@@ -107,12 +120,21 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
             }
         }
 
+        /**
+         * Provides typed access to the singleton instance
+         * @param <T> the final type of the function
+         * @return the singleton instance
+         */
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> IterationsParam<T> getInstance() {
             return (IterationsParam<T>) INSTANCE;
         }
     }
 
+    /**
+     * This parameter defines the number of parallel threads to be taken by the Argon2 function
+     * @param <T> The final type of the function
+     */
     public static final class ParallelismParam<T extends Argon2<T>> extends Param<T, Integer> {
         private static final ParallelismParam<?> INSTANCE = new ParallelismParam<>();
 
@@ -127,12 +149,21 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
             }
         }
 
+        /**
+         * Provides typed access to the singleton instance
+         * @param <T> the final type of the function
+         * @return the singleton instance
+         */
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> ParallelismParam<T> getInstance() {
             return (ParallelismParam<T>) INSTANCE;
         }
     }
 
+    /**
+     * This parameter defines the key id to be used by the Argon2 function
+     * @param <T> The final type of the function
+     */
     public static final class KeyIdParam<T extends Argon2<T>> extends Param<T, byte[]> {
         private static final KeyIdParam<?> INSTANCE = new KeyIdParam<>();
 
@@ -147,12 +178,21 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
             }
         }
 
+        /**
+         * Provides typed access to the singleton instance
+         * @param <T> the final type of the function
+         * @return the singleton instance
+         */
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> KeyIdParam<T> getInstance() {
             return (KeyIdParam<T>) INSTANCE;
         }
     }
 
+    /**
+     * This parameter defines the additional data to be used by the Argon2 function
+     * @param <T> The final type of the function
+     */
     public static final class DataParam<T extends Argon2<T>> extends Param<T, byte[]> {
         private static final DataParam<?> INSTANCE = new DataParam<>();
 
@@ -167,6 +207,11 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
             }
         }
 
+        /**
+         * Provides typed access to the singleton instance
+         * @param <T> the final type of the function
+         * @return the singleton instance
+         */
         @SuppressWarnings("unchecked")
         static <T extends Argon2<T>> DataParam<T> getInstance() {
             return (DataParam<T>) INSTANCE;
