@@ -99,6 +99,5 @@ publishing {
 
 signing {
 	useGpgCmd()
-	sign configurations.archives
 	sign publishing.publications.mavenJava
 }

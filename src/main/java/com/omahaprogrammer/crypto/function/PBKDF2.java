@@ -27,15 +27,22 @@ import java.util.Optional;
 import java.util.Set;
 
 public class PBKDF2 extends PHCFunction<PBKDF2> {
-    public static final AlgorithmParam ALG = new AlgorithmParam();
-    public static final IterationsParam C = new IterationsParam();
+    public static final AlgorithmParam ALG;
+    public static final IterationsParam C;
 
-    private static final Map<String, Param<PBKDF2, ?>> params = new HashMap<>();
+    private static final Map<String, Param<PBKDF2, ?>> params;
 
     private static final int DEFAULT_SALT_LENGTH = 128;
     private static final int DEFAULT_HASH_LENGTH = 64;
 
     private static final PBKDF2 INSTANCE = new PBKDF2();
+
+    static {
+        // public constants should be first, but the private constant needs to be initialized first
+        params = new HashMap<>();
+        ALG = new AlgorithmParam();
+        C = new IterationsParam();
+    }
 
     private PBKDF2() {
         super("pbkdf2");
