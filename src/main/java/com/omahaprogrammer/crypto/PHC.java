@@ -162,7 +162,7 @@ public final class PHC<T extends PHCFunction<T>> {
         try {
             var newSalt = new byte[this.salt.length];
             new SecureRandom().nextBytes(newSalt);
-            return new PHC<>(function, params, newSalt, function.hashPassword(params, newSalt, password, protectedPassword.length));
+            return new PHC<>(function, params, newSalt, function.protectPassword(params, newSalt, password, protectedPassword.length));
         } finally {
             Arrays.fill(password, '\0');
         }
@@ -178,7 +178,7 @@ public final class PHC<T extends PHCFunction<T>> {
     public PHC<T> protectNewPassword(byte[] newSalt, char[] password) {
         password = Arrays.copyOf(password, password.length);
         try {
-            return new PHC<>(function, params, newSalt, function.hashPassword(params, newSalt, password, protectedPassword.length));
+            return new PHC<>(function, params, newSalt, function.protectPassword(params, newSalt, password, protectedPassword.length));
         } finally {
             Arrays.fill(password, '\0');
         }
@@ -232,7 +232,7 @@ public final class PHC<T extends PHCFunction<T>> {
      */
     public boolean validate(char[] password) {
         password = Arrays.copyOf(password, password.length);
-        var testHash = function.hashPassword(params, salt, password, protectedPassword.length);
+        var testHash = function.protectPassword(params, salt, password, protectedPassword.length);
         Arrays.fill(password, '\0');
         var valid = true;
         for (int i = protectedPassword.length - 1; i >= 0; --i) {
@@ -393,7 +393,7 @@ public final class PHC<T extends PHCFunction<T>> {
             }
 
             password = Arrays.copyOf(password, password.length);
-            var hash = function.hashPassword(params, salt, password, hashLength);
+            var hash = function.protectPassword(params, salt, password, hashLength);
             Arrays.fill(password, '\0');
 
             return new PHC<>(function, params, salt, hash);

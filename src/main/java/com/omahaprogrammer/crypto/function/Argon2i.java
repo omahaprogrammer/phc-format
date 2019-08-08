@@ -30,6 +30,10 @@ public final class Argon2i extends Argon2<Argon2i> {
         super("argon2i", Argon2Parameters.ARGON2_i);
     }
 
+    /**
+     * Provides the singleton instance of this function
+     * @return the singleton instance
+     */
     public static Argon2i getInstance() {
         return INSTANCE;
     }
