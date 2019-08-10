@@ -27,7 +27,14 @@ import java.util.Optional;
 import java.util.Set;
 
 public class PBKDF2 extends PHCFunction<PBKDF2> {
+    /**
+     * The singleton instance of the AlgorithmParam class
+     */
     public static final AlgorithmParam ALG;
+
+    /**
+     * The singleton instance of the IterationsParam class
+     */
     public static final IterationsParam C;
 
     private static final Map<String, Param<PBKDF2, ?>> params;

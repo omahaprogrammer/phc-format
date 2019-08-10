@@ -69,7 +69,10 @@ public final class PHC<T extends PHCFunction<T>> {
                 Argon2i.getInstance(),
                 Argon2d.getInstance(),
                 Argon2id.getInstance(),
-                PBKDF2.getInstance());
+                PBKDF2.getInstance(),
+                BCrypt.getInstance(),
+                SCrypt.getInstance()
+        );
         functions = funcs.stream().collect(Collectors.toMap(PHCFunction::getId, e -> e));
     }
 
