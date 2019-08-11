@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
-  <component name="ExternalSystem" externalSystem="GRADLE" externalSystemModuleGroup="com.omahaprogrammer.crypto" externalSystemModuleType="sourceSet" externalSystemModuleVersion="1.1-SNAPSHOT" linkedProjectId="phc-format:test" linkedProjectPath="$MODULE_DIR$/../.." rootProjectPath="$MODULE_DIR$/../.." />
+  <component name="ExternalSystem" externalSystem="GRADLE" externalSystemModuleGroup="com.omahaprogrammer.crypto" externalSystemModuleType="sourceSet" externalSystemModuleVersion="1.1" linkedProjectId="phc-format:test" linkedProjectPath="$MODULE_DIR$/../.." rootProjectPath="$MODULE_DIR$/../.." />
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_12">
     <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
     <exclude-output />
