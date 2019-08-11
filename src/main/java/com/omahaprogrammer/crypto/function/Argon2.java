@@ -36,8 +36,8 @@ abstract class Argon2<T extends Argon2<T>> extends PHCFunction<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Optional<Param<T, ?>> getParam(String string) {
-        return Optional.ofNullable((Param<T, ?>)params.get(string));
+    public <V> Optional<Param<T, V>> getParam(String string) {
+        return Optional.ofNullable((Param<T, V>)params.get(string));
     }
 
     @Override

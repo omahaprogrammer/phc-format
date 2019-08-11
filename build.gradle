@@ -22,8 +22,7 @@ plugins {
 group 'com.omahaprogrammer.crypto'
 version '1.1-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_12
-targetCompatibility = JavaVersion.VERSION_12
+sourceCompatibility = JavaVersion.VERSION_1_10
 
 task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
@@ -33,6 +32,11 @@ task sourcesJar(type: Jar) {
 task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:all"
 }
 
 artifacts {

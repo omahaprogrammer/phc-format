@@ -17,6 +17,8 @@ package com.omahaprogrammer.crypto.function;
 
 import org.bouncycastle.crypto.params.Argon2Parameters;
 
+import java.util.Optional;
+
 public final class Argon2d extends Argon2<Argon2d> {
     public static final MemorySizeParam<Argon2d> M = MemorySizeParam.getInstance();
     public static final IterationsParam<Argon2d> T = IterationsParam.getInstance();

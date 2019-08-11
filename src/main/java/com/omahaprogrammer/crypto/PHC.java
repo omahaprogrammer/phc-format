@@ -126,7 +126,7 @@ public final class PHC<T extends PHCFunction<T>> {
                     var param = function.getParam(entry.getKey());
                     param.ifPresent(p -> typedParams.put(p, p.validate(entry.getValue())));
                 }
-                @SuppressWarnings("unchecked")
+                @SuppressWarnings({"unchecked", "rawtypes"})
                 PHC<T> phc = new PHC(function, typedParams, salt, hash);
                 return phc;
             } else {
